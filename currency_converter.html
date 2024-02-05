@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-size: larger;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-image: linear-gradient(to left, rgb(228, 242, 247), rgb(215, 242, 252), rgb(196, 240, 254));
+        }
+
+        hr {
+            border-color: black;
+        }
+
+        .div1 {
+            padding: 15px;
+            border: 1px solid black;
+            background-color: white;
+            height: fit-content;
+            width: 300px;
+        }
+
+        button {
+            height: 35px;
+            width: 100px;
+            background-color: rgb(35, 194, 246);
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            height: 35px;
+            width: 100px;
+            background-color: white;
+            color: rgb(35, 194, 246);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Currency Converter</h1>
+        <hr>
+        <br>
+        <div class="div1">
+            <table border="0" cellpadding="10" width="150px">
+                <tr>
+                    <td><b>From:</b></td>
+                    <td>
+                        <select id="from">
+                            <option value="">-select-</option>
+                            <option value="USD">United States(USD)</option>
+                            <option value="INR">India(INR)</option>
+                            <option value="EUR">European Countries(EUR)</option>
+                            <option value="GBP">United Kingdom(GBP)</option>
+                            <option value="JPY">Japan(JPY)</option>
+                            <option value="CHF">Swiss Franc(CHF)</option>
+                            <option value="CAD">Canada(CAD)</option>
+                            <option value="AUD">Australia(AUD)</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>To:</b></td>
+                    <td>
+                        <select id="to">
+                            <option value="">-select-</option>
+                            <option value="USD">United States(USD)</option>
+                            <option value="INR">India(INR)</option>
+                            <option value="EUR">European Countries(EUR)</option>
+                            <option value="GBP">United Kingdom(GBP)</option>
+                            <option value="JPY">>Japan(JPY)</option>
+                            <option value="CHF">Swiss Franc(CHF)</option>
+                            <option value="CAD">Canada(CAD)</option>
+                            <option value="AUD">Australia(AUD)</option>
+                        </select>
+                    </td>
+                <tr>
+                    <td><b>Amount:</b></td>
+                    <td><input type="text" id="i_amt"></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <button onclick="convert()">CONVERT</button>
+        <br><br>
+        <div class="div1">
+            <table border="0" cellpadding="5" width="300px">
+                <tr>
+                    <th>Converted Amount:</th>
+                </tr>
+                <tr>
+                    <th>
+                        <small><span id="result"></span></small>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </center>
+
+    <script>
+        function convert() {
+            let from = document.getElementById("from").value;
+            let to = document.getElementById("to").value;
+    
+            fetch(`https://api.exchangerate-api.com/v4/latest/${from}`)
+                .then(response => response.json())
+                .then(data => {
+                    let rate = data.rates[to];
+                    let i_amt = parseFloat(document.getElementById("i_amt").value);
+                    let f_amt = rate * i_amt;
+                    document.getElementById("result").innerHTML = (`${i_amt} ${from} = ${f_amt} ${to}`);                
+                })
+        }
+    
+    </script>
+    
+</body>
+
+</html>
